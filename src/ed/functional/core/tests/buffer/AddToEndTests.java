@@ -22,28 +22,6 @@ public class AddToEndTests
 
 		assertEquals("New buffer must contain only the added line", expected, nonEmpty);
 	}
-
-	@Test
-	public void stringToPositiveAddress_addressRemainsSame()
-	{
-		Buffer nonEmpty = createBuffer().setAddress(1).addToEnd("content");
-
-		List<String> expectedLines = Arrays.asList("content");
-		Buffer expected = createBuffer(expectedLines, 1);
-
-		assertEquals("Address must remain the same", expected, nonEmpty);
-	}
-	
-	@Test
-	public void stringToNegativeAddress_addressRemainsSame()
-	{
-		Buffer nonEmpty = createBuffer().setAddress(-1).addToEnd("content");
-
-		List<String> expectedLines = Arrays.asList("content");
-		Buffer expected = createBuffer(expectedLines, -1);
-
-		assertEquals("Address must remain the same", expected, nonEmpty);
-	}
 	
 	@Test
 	public void stringsToEmptyBuffer_stringsAddedAtEnd()

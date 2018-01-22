@@ -173,6 +173,6 @@ public class Buffer
 			return lines.size();
 		}
 		
-		return address - 1;
+		return address;
 	}
 }

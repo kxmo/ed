@@ -64,33 +64,38 @@ public class AddToCurrentAddressTests
 	}
 	
 	@Test
-	public void stringToNonZeroAddress_bufferHasNewStringAtAddress()
+	public void negativeAddressOutsideValidRange_bufferHasNewStringAt0()
 	{
-		Buffer nonEmpty = createBuffer()
-				.setAddress(1)
-				.addToCurrentAddress("first");
-
-		// The address doesn't change, so we displace the previous placement
-		// leading to backwards ordering.
-		List<String> expectedLines = Arrays.asList("first");
-		Buffer expected = createBuffer(expectedLines, 1);
-
-		assertEquals("New buffer must only the added line and have an address of 1", expected, nonEmpty);
-	}
-	
-	@Test(expected = IndexOutOfBoundsException.class)
-	public void negativeAddressOutsideValidRange_throwsIndexOutOfBounds()
-	{
-		createBuffer()
-		.setAddress(-1)
-		.addToCurrentAddress("content");
+		Buffer negativeBuffer = createBuffer()
+					.addToEnd("extra")
+					.setAddress(-1)
+					.addToCurrentAddress("content");
+		
+		assertEquals("New buffer must have address equal to 0", 0, negativeBuffer.getAddress());
+		
+		List<String> actual = negativeBuffer.getLines();
+		List<String> expected = Arrays.asList("content", "extra");
+		
+		assertEquals("The content should be added to the front if a negative address is given", expected, actual);
 	}
 
-	@Test(expected = IndexOutOfBoundsException.class)
-	public void positiveAddressOutsideValidRange_throwsIndexOutOfBounds()
+	@Test
+	public void positiveAddressOutsideValidRange_bufferHasNewStringAtSize()
 	{
-		createBuffer()
-		.setAddress(2)
-		.addToCurrentAddress("content");
+		Buffer buffer = createBuffer()
+				.addToEnd("extra")
+				.addToEnd("more")
+				.setAddress(3)
+				.addToCurrentAddress("content");
+		
+		System.out.println(buffer.getLines());
+		System.out.println(buffer.getAddress());
+		
+		assertEquals("New buffer must have address equal to size", 2, buffer.getAddress());
+		
+		List<String> actual = buffer.getLines();
+		List<String> expected = Arrays.asList("extra", "more", "content");
+		
+		assertEquals("The content should be added to the end if an oversize address is given", expected, actual);
 	}
 }
