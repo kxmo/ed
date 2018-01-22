@@ -33,7 +33,12 @@ public class Buffer
 	
 	/**
 	 * The current line.
-	 * Valid values are between 0 and lines.length - 1 inclusive. 
+	 * Valid values for use are between 0 and lines.length - 1 inclusive.
+	 * 
+	 * The specification does not discuss values outside of 0 and the size of the file.
+	 * We will treat those values as:
+	 * negative: 0
+	 * > size: size 
 	 */
 	private final int address;
 	
@@ -70,7 +75,7 @@ public class Buffer
 		}
 		
 		this.lines = ListUtility.filterList(lines, Predicates::isNonNull);	
-		this.address = address;
+		this.address = constrainAddress(address);
 	}
 
 	/**
@@ -85,7 +90,9 @@ public class Buffer
 	/**
 	 * Return the current address:
 	 * The current line to be modified.
-	 * @return 0 to number of lines in a file.
+	 * There are no limits on the value this may hold,
+	 * except when an operation depending on the address is used.
+	 * In that case valid values are 0 to lines in file - 1 inclusive.
 	 */
 	public int getAddress()
 	{
@@ -111,11 +118,10 @@ public class Buffer
 	 * @param line The line to add. If null the returned buffer is equal to the callee buffer.
 	 * @return A new buffer with line added and the current line remains unchanged (i.e. pointing
 	 * to the newly added line).
-	 * @throws IndexOutOfBoundsException Iff address is < 0 or >= lines.size().
 	 */
 	public Buffer addToCurrentAddress(String line)
 	{
-		return new Buffer(ListUtility.copyAdd(lines, line, constrainLowerAddress(address)), getAddress());		
+		return new Buffer(ListUtility.copyAdd(lines, line, address), address);		
 	}
 	
 	/**
@@ -125,11 +131,11 @@ public class Buffer
 	 * pushed one along.
 	 * @param line The line to add at the end of the buffer.
 	 * @return A new buffer with the new line at the end.
-	 * The current address remains the same.
+	 * The address is not constrained because it is not used.
 	 */
 	public Buffer addToEnd(String line)
 	{
-		return new Buffer(ListUtility.copyAdd(lines, line), getAddress());
+		return new Buffer(ListUtility.copyAdd(lines, line), address);
 	}
 	
 	@Override
@@ -147,17 +153,24 @@ public class Buffer
 	}
 	
 	/**
-	 * Treat getAddress() as a valid lines position where
+	 * Treat getAddress() as a valid line's position where
 	 * 0 or 1 is the first element, 2 is the second element
 	 * and so on.
+	 * Addresses below 0 are equal to 0, and line size 
+	 * (inclusive) or above are line size - 1.
 	 * @param address The address to constrain.
-	 * @return 0 for input 0, address - 1 otherwise.
+	 * @return An address within valid bounds.
 	 */
-	private int constrainLowerAddress(int address)
+	private int constrainAddress(int address)
 	{
-		if (address == 0)
+		if (address <= 0)
 		{
 			return 0;
+		}
+		
+		if (address >= lines.size())
+		{
+			return lines.size();
 		}
 		
 		return address - 1;
