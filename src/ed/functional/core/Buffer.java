@@ -63,18 +63,21 @@ public class Buffer
 	/**
 	 * Create a new buffer.
 	 * @param lines The lines to make up the new buffer.
-	 * Null items are silently ignored. The list itself may not be null.
+	 * Null items are silently ignored.
+	 * If the list itself is null an empty list will be used.
 	 * @param address The current line.
-	 * @throws NullPointerException Iff lines is null.
 	 */
 	public Buffer(List<String> lines, int address)
 	{
 		if (lines == null)
 		{
-			throw new NullPointerException();
+			this.lines = ListUtility.newList();
+		}
+		else
+		{
+			this.lines = ListUtility.filterList(lines, Predicates::isNonNull);
 		}
 		
-		this.lines = ListUtility.filterList(lines, Predicates::isNonNull);	
 		this.address = constrainAddress(address);
 	}
 
