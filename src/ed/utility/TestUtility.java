@@ -1,4 +1,4 @@
-package ed.functional.core.tests.buffer;
+package ed.utility;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.regex.PatternSyntaxException;
 
 import ed.functional.core.Buffer;
 
-public class Utility
+public class TestUtility
 {
 	/**
 	 * Replace the first occurrence of toReplace with replacement in line.

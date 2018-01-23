@@ -1,6 +1,6 @@
 package ed.functional.core.tests.buffer;
 
-import static ed.functional.core.tests.buffer.Utility.*;
+import static ed.utility.TestUtility.*;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
