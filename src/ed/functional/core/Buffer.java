@@ -41,6 +41,7 @@ public class Buffer
 	 * > size: size 
 	 */
 	private final int address;
+	private static final int defaultAddress = 0;
 	
 	/**
 	 * The command prompt, used for entering commands.
@@ -56,7 +57,7 @@ public class Buffer
 	 */
 	public Buffer()
 	{
-		this(ListUtility.newList(), defaultPrompt , 0);
+		this(ListUtility.newList(), defaultPrompt , defaultAddress);
 	}
 	
 	/**
