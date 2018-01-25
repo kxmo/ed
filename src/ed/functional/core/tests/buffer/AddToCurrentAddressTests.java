@@ -88,9 +88,6 @@ public class AddToCurrentAddressTests
 				.setAddress(3)
 				.addToCurrentAddress("content");
 		
-		System.out.println(buffer.getLines());
-		System.out.println(buffer.getAddress());
-		
 		assertEquals("New buffer must have address equal to size", 2, buffer.getAddress());
 		
 		List<String> actual = buffer.getLines();
