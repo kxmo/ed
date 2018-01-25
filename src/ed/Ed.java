@@ -5,12 +5,10 @@ import ed.parsing.CommandLine;
 
 public class Ed
 {
-	private final String prompt;
 	private Buffer currentBuffer;
 	
-	public Ed(String prompt, Buffer currentBuffer)
+	public Ed(Buffer currentBuffer)
 	{
-		this.prompt = prompt;
 		this.currentBuffer = currentBuffer;
 	}
 	

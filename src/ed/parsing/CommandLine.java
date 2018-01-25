@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import ed.functional.core.Buffer;
+
 public class CommandLine
 {
 	public static boolean suppress(String[] args)
@@ -22,7 +24,7 @@ public class CommandLine
 		}
 		catch(NoSuchElementException | IndexOutOfBoundsException e)
 		{
-			prompt = "";
+			prompt = Buffer.getDefaultPrompt();
 		}
 		
 		return prompt;

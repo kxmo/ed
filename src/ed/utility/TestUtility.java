@@ -29,7 +29,7 @@ public class TestUtility
 
 	public static Buffer createBuffer(List<String> lines, int address)
 	{
-		return new Buffer(lines, address);
+		return new Buffer(lines, Buffer.getDefaultPrompt(), address);
 	}
 
 	public static Buffer createBuffer()

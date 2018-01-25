@@ -43,12 +43,20 @@ public class Buffer
 	private final int address;
 	
 	/**
+	 * The command prompt, used for entering commands.
+	 * This typically does not change between buffers but some commands
+	 * (-P) do change the prompt.
+	 */
+	private final String prompt;
+	private static final String defaultPrompt = "";
+	
+	/**
 	 * Create a new empty buffer.
 	 * Current line is 0.
 	 */
 	public Buffer()
 	{
-		this(ListUtility.newList(), 0);
+		this(ListUtility.newList(), defaultPrompt , 0);
 	}
 	
 	/**
@@ -57,7 +65,7 @@ public class Buffer
 	 */
 	public Buffer(List<String> lines)
 	{
-		this(lines, lines.size());
+		this(lines, defaultPrompt, lines.size());
 	}
 	
 	/**
@@ -67,7 +75,7 @@ public class Buffer
 	 * If the list itself is null an empty list will be used.
 	 * @param address The current line.
 	 */
-	public Buffer(List<String> lines, int address)
+	public Buffer(List<String> lines, String prompt, int address)
 	{
 		if (lines == null)
 		{
@@ -79,6 +87,7 @@ public class Buffer
 		}
 		
 		this.address = constrainAddress(address);
+		this.prompt = prompt;
 	}
 
 	/**
@@ -111,9 +120,34 @@ public class Buffer
 	 */
 	public Buffer setAddress(int address)
 	{
-		return new Buffer(lines, address);
+		return new Buffer(lines, prompt, address);
 	}
 	
+	/**
+	 * Return the current prompt.
+	 */
+	public int getPrompt()
+	{
+		return address;
+	}
+	
+	/**
+	 * Get the default value of the prompt.
+	 */
+	public static String getDefaultPrompt()
+	{
+		return defaultPrompt;
+	}
+	
+	/**
+	 * Get a buffer with the prompt set to `prompt'
+	 * @param prompt The new prompt value.
+	 * @return A buffer with .equal lines, address value, and a new prompt.
+	 */
+	public Buffer setPrompt(String prompt)
+	{
+		return new Buffer(lines, prompt, address);
+	}
 
 	/**
 	 * The line is added to the position of the current address, shifting all elements
@@ -124,7 +158,7 @@ public class Buffer
 	 */
 	public Buffer addToCurrentAddress(String line)
 	{
-		return new Buffer(ListUtility.copyAdd(lines, line, address), address);		
+		return new Buffer(ListUtility.copyAdd(lines, line, address), prompt, address);		
 	}
 	
 	/**
@@ -138,7 +172,7 @@ public class Buffer
 	 */
 	public Buffer addToEnd(String line)
 	{
-		return new Buffer(ListUtility.copyAdd(lines, line), address);
+		return new Buffer(ListUtility.copyAdd(lines, line), prompt, address);
 	}
 	
 	@Override
@@ -149,7 +183,7 @@ public class Buffer
 		if (o instanceof Buffer)
 		{
 			Buffer other = (Buffer) o;
-			isEqual = this.lines.equals(other.lines) && this.address == other.address;
+			isEqual = this.lines.equals(other.lines) && this.address == other.address && this.prompt.equals(other.prompt);
 		}
 		
 		return isEqual;
