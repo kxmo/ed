@@ -1,15 +1,14 @@
 package ed;
 
-import ed.functional.core.Buffer;
 import ed.parsing.CommandLine;
 
 public class Ed
 {
-	private Buffer currentBuffer;
+	private State currentState;
 	
-	public Ed(Buffer currentBuffer)
+	public Ed(State currentState)
 	{
-		this.currentBuffer = currentBuffer;
+		this.currentState = currentState;
 	}
 	
 	public static void main(String[] args)
