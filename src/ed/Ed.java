@@ -1,7 +1,11 @@
 package ed;
 
-import ed.parsing.CommandLine;
-
+/**
+ * 
+ * This is a 1997 specification compliant implementation of Ed.
+ * The specification can be found at: http://pubs.opengroup.org/onlinepubs/7908799/xcu/ed.html
+ *
+ */
 public class Ed
 {
 	private State currentState;
@@ -13,20 +17,6 @@ public class Ed
 	
 	public static void main(String[] args)
 	{
-		String prompt = CommandLine.getPromptString(args);
-		boolean suppress = CommandLine.suppress(args);
-		
-		
-		for(String s : args)
-		{
-			System.out.println(s);
-		}
-		
-		System.out.println();
-		System.out.println(prompt);
-		System.out.println(suppress);
-		
-		
-		//new Ed(prompt);
+		System.out.println("Implementation is a work in progress");
 	}
 }
