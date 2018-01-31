@@ -100,6 +100,16 @@ public class Buffer
 		return ListUtility.copy(lines);
 	}
 	
+	public String getLineAtAddress(int address)
+	{
+		return getLines().get(constrainAddress(address));
+	}
+	
+	public String getLineAtCurrentAddress()
+	{
+		return getLineAtAddress(address);
+	}
+	
 	/**
 	 * Return the current address:
 	 * The current line to be modified.

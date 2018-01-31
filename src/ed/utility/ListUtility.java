@@ -1,6 +1,7 @@
 package ed.utility;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -65,7 +66,7 @@ public class ListUtility
 	 * 
 	 * @param list The list to be copied.
 	 */
-	public static <T> List<T> copy(List<T> list)
+	public static <T> List<T> copy(Collection<T> list)
 	{
 		return new ArrayList<T>(list);
 	}
@@ -109,5 +110,12 @@ public class ListUtility
 		return list.stream()
 				.filter(toKeep)
 				.collect(Collectors.toList());
+	}
+
+	public static <T> List<T> copyRemove(List<T> list, T item)
+	{
+		List<T> copy = copy(list);
+		copy.remove(item);
+		return copy;
 	}
 }
