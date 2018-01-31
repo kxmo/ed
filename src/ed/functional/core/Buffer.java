@@ -127,9 +127,9 @@ public class Buffer
 	/**
 	 * Return the current prompt.
 	 */
-	public int getPrompt()
+	public String getPrompt()
 	{
-		return address;
+		return prompt;
 	}
 	
 	/**
