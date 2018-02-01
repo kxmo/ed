@@ -22,7 +22,7 @@ public class ListUtility
 			return 0;
 		}
 		
-		if (number >= listSize)
+		if (number > listSize)
 		{
 			return listSize - 1;
 		}
@@ -93,7 +93,7 @@ public class ListUtility
 	public static <T> List<T> copyAdd(List<T> list, T item, int position)
 	{
 		List<T> copy = copy(list);
-		copy.add(position, item);
+		copy.add(constrainNumber(copy.size(), position), item);
 		return copy;
 	}
 	
