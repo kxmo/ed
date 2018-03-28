@@ -4,6 +4,9 @@ import java.util.Optional;
 
 /**
  * An action that may change the outside environment.
+ * The implementation for common actions are in ed.functional.core.action.
+ * Unique actions may be implemented within the class that uses them
+ * (QuitWithoutChecking is one such example).
  */
 public interface Action
 {
