@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import ed.functional.core.Action;
 import ed.functional.core.Buffer;
+import ed.functional.core.Question;
 import ed.utility.ListUtility;
 
 public class State
@@ -45,18 +46,35 @@ public class State
 	 * the resulting state of the first item.
 	 */
 	private final List<Action> toExecute;
+
+	private final List<Question> questions;
 	
-	public State(Stack<Buffer> buffers, Optional<String> actionResult, Collection<Action> actions, List<Action> toExecute)
+	public State(Stack<Buffer> buffers,
+				Optional<String> actionResult,
+				Collection<Action> actions,
+				List<Action> toExecute,
+				List<Question> questions)
 	{
 		this.buffers = buffers;
 		this.actionResult = actionResult;
 		this.availableActions = ListUtility.copy(actions);
 		this.toExecute = toExecute;
+		this.questions = questions;
 	}
 	
 	public Stack<Buffer> buffers()
 	{
 		return buffers;
+	}
+	
+	public Optional<Action> mostRecentAction()
+	{
+		if (toExecute.isEmpty())
+		{
+			return Optional.empty();
+		}
+		
+		return Optional.of(toExecute.get(toExecute.size() - 1));
 	}
 
 	public State addAction(Action nextAction)
@@ -64,6 +82,22 @@ public class State
 		return new State(buffers,
 				actionResult,
 				availableActions,
-				ListUtility.copyAdd(ListUtility.copyRemove(toExecute, nextAction), nextAction));
+				ListUtility.copyAdd(ListUtility.copyRemove(toExecute, nextAction), nextAction),
+				questions);
+	}
+	
+	public State addQuestion(String message)
+	{
+		return new State(buffers,
+						actionResult,
+						availableActions,
+						toExecute,
+						ListUtility.copyAdd(questions, new Question(message)));
+	}
+
+	public boolean noChangesSinceLastWrite()
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

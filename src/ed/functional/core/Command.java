@@ -4,13 +4,16 @@ import java.util.function.BiFunction;
 
 import ed.State;
 import ed.functional.core.action.Print;
+import ed.functional.core.action.QuitWithoutChecking;
 
 /**
  * The commands and implementations defined by the Ed specification.
  */
 public enum Command
 {
-	LineNumber ("($)=", Command::lineNumber);
+	LineNumber ("($)=", Command::lineNumber),
+	Quit("q", Command::quit),
+	QuitWithoutChecking("Q", Command::quitWithoutChecking);
 
 	// TODO Implement commands
 	
@@ -39,5 +42,20 @@ public enum Command
 		String message = String.format("%d\n", address);
 		Action nextAction = new Print(System.out::println, message);
 		return state.addAction(nextAction);
+	}
+	
+	private static State quit(State state, String[] args)
+	{
+		if (state.noChangesSinceLastWrite() || state.mostRecentAction().equals(Quit))
+		{
+			return quitWithoutChecking(state, args);
+		}
+		
+		return state.addAction(new Print(System.out::println, "?"));
+	}
+	
+	private static State quitWithoutChecking(State state, String[] unused)
+	{
+		return state.addAction(new QuitWithoutChecking());
 	}
 }
