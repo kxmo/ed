@@ -3,7 +3,6 @@ package ed;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Stack;
 
 import ed.functional.core.Action;
 import ed.functional.core.Buffer;
@@ -24,7 +23,7 @@ public class State
 	 * That function would always be called before the next event was processed.
 	 */
 	
-	private final Stack<Buffer> buffers;
+	private final Buffer buffer;
 
 	/**
 	 * The result of a side effecting action, executed by a command.
@@ -49,22 +48,22 @@ public class State
 
 	private final List<Question> questions;
 	
-	public State(Stack<Buffer> buffers,
+	public State(Buffer buffer,
 				Optional<String> actionResult,
 				Collection<Action> actions,
 				List<Action> toExecute,
 				List<Question> questions)
 	{
-		this.buffers = buffers;
+		this.buffer = buffer;
 		this.actionResult = actionResult;
 		this.availableActions = ListUtility.copy(actions);
 		this.toExecute = toExecute;
 		this.questions = questions;
 	}
 	
-	public Stack<Buffer> buffers()
+	public Buffer currentBuffer()
 	{
-		return buffers;
+		return buffer;
 	}
 	
 	public Optional<Action> mostRecentAction()
@@ -79,7 +78,7 @@ public class State
 
 	public State addAction(Action nextAction)
 	{
-		return new State(buffers,
+		return new State(buffer,
 				actionResult,
 				availableActions,
 				ListUtility.copyAdd(ListUtility.copyRemove(toExecute, nextAction), nextAction),
@@ -88,7 +87,7 @@ public class State
 	
 	public State addQuestion(String message)
 	{
-		return new State(buffers,
+		return new State(buffer,
 						actionResult,
 						availableActions,
 						toExecute,
@@ -99,5 +98,14 @@ public class State
 	{
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public State setBuffer(Buffer current)
+	{
+		return new State(current,
+					actionResult,
+					availableActions,
+					toExecute,
+					questions);
 	}
 }

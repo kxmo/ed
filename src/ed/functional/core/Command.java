@@ -10,6 +10,7 @@ import ed.functional.core.command.*;
  */
 public enum Command
 {
+	a ("a", Append::addAction),
 	LN ("($)=", LineNumber::addAction),
 	q ("q", Quit::addAction),
 	Q ("Q", QuitWithoutChecking::addAction);
